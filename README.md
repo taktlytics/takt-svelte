@@ -277,8 +277,8 @@ and `routeTemplate` work there as on `<Takt />`.
 
 Thin wrappers over Takt's server-rendered widgets. `<TaktBadge />` is an `<img>`
 pointing at the badge SVG; `<TaktEmbed />` is an `<iframe>` for the embed page.
-Both accept `host` to target a self-hosted Takt and pass through extra
-attributes (`class`, `style`, …); the controlled `src` cannot be overridden.
+Both accept `host` to target a custom host (first-party proxy or test environment)
+and pass through extra attributes (`class`, `style`, …); the controlled `src` cannot be overridden.
 `host` must be an absolute `http(s)` URL (validated by core, which reduces it to
 its origin, dropping any path or query). Omitted or empty, it falls back to the
 hosted Takt origin (`https://taktlytics.com`).
