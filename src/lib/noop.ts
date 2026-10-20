@@ -14,7 +14,7 @@ type TaktSurface = { [K in keyof TaktInstance]: TaktInstance[K] }
  */
 export function noopTakt(): TaktInstance {
   if (!warned && typeof console !== 'undefined') {
-    console.warn('[takt] useTakt() called before <Takt /> mounted — returning a no-op instance.')
+    console.warn('[takt] useTakt() called before <Takt /> mounted: returning a no-op instance.')
     warned = true
   }
   const noop = (): void => {}
