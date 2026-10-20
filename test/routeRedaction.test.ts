@@ -25,6 +25,22 @@ describe('<Takt /> route redaction against the real core', () => {
     unmount()
   })
 
+  it('masks an undecodable path as /[redacted] by default', () => {
+    history.replaceState(null, '', '/orders/%ZZ')
+    const { unmount } = render(Takt, { props: { domain: 'exemple.fr', redactRoutes: ['/orders/[id]'] } })
+    expect(sentUrls(beacon)).toEqual(['https://example.com/[redacted]'])
+    unmount()
+  })
+
+  it('redactUndecodablePaths: false decodes leniently and matches the route', () => {
+    history.replaceState(null, '', '/orders/%ZZ')
+    const { unmount } = render(Takt, {
+      props: { domain: 'exemple.fr', redactRoutes: ['/orders/[id]'], redactUndecodablePaths: false },
+    })
+    expect(sentUrls(beacon)).toEqual(['https://example.com/orders/[id]'])
+    unmount()
+  })
+
   it('strips SvelteKit (group) segments from a page.route.id template', async () => {
     let routeId = '/(marketing)/blog/[slug]'
     history.replaceState(null, '', '/blog/hello')

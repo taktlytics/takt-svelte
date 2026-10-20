@@ -5,8 +5,12 @@ export { useTakt } from './useTakt'
 export { taktStore } from './store'
 export type { TaktInstance } from './store'
 
-export { createStats, PublicApiError, badgeUrl, embedUrl, optOut, optIn, isOptedOut } from '@vskstudio/takt-core'
+export { createStats, PublicApiError, badgeUrl, embedUrl, normalizeHost, optOut, optIn, isOptedOut } from '@vskstudio/takt-core'
 export type {
+  Config,
+  Payload,
+  RouteTemplateResolver,
+  TrackOptions,
   BadgeOptions,
   BadgeVariant,
   BadgeGlyph,

@@ -37,10 +37,11 @@ export function createTaktAnalyticsElement(): CustomElementConstructor {
         queryParams: list('query-params'),
         exclude: list('exclude'),
         redactRoutes: list('redact-routes'),
+        redactUndecodablePaths: truthy(attr('redact-undecodable-paths')),
       })
       if (truthy(attr('spa'))) this.disposers.push(takt.enableSpa())
       if (this.hasAttribute('outbound')) this.disposers.push(takt.enableOutbound())
-      if (this.hasAttribute('files')) this.disposers.push(takt.enableFiles())
+      if (this.hasAttribute('files')) this.disposers.push(takt.enableFiles(list('file-extensions')))
       if (this.hasAttribute('track-404')) this.disposers.push(takt.enable404())
       if (this.hasAttribute('tagged')) this.disposers.push(takt.enableTagged())
       takt.pageview()
