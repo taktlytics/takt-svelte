@@ -7,7 +7,7 @@ const truthy = (v: string | null): boolean => v !== 'false' && v !== '0'
 
 // Built lazily: referencing HTMLElement at module load throws under SSR (Node),
 // so the class is created only when registration runs in a DOM environment. This
-// is a plain custom element — it wires core imperatively and pulls in no Svelte
+// is a plain custom element: it wires core imperatively and pulls in no Svelte
 // runtime, keeping the self-contained /element bundle tiny. The historical Svelte
 // custom element lowercased prop names, so `respectdnt` / `excludelocalhost` are
 // the canonical attributes; the hyphenated ecosystem spellings are accepted too.

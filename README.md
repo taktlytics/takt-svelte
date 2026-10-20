@@ -5,7 +5,7 @@
 # @vskstudio/takt-svelte
 
 
-> 📚 **Documentation** — [taktlytics.com/docs/wrappers/svelte](https://taktlytics.com/docs/wrappers/svelte)
+> 📚 **Documentation**: [taktlytics.com/docs/wrappers/svelte](https://taktlytics.com/docs/wrappers/svelte)
 
 **Idiomatic [Svelte](https://svelte.dev) wrapper for [Takt](https://github.com/taktlytics/takt-core) privacy-friendly analytics.**
 
@@ -18,12 +18,12 @@
 
 ---
 
-A thin, SSR-safe Svelte 5 layer over [`@vskstudio/takt-core`](https://www.npmjs.com/package/@vskstudio/takt-core). Built with runes; it changes nothing about the wire payload or privacy logic — it just makes the core feel native in a Svelte app.
+A thin, SSR-safe Svelte 5 layer over [`@vskstudio/takt-core`](https://www.npmjs.com/package/@vskstudio/takt-core). Built with runes. It changes nothing about the wire payload or privacy logic. It just makes the core feel native in a Svelte app.
 
-- **SSR-safe** — the browser SDK only initializes in `onMount`, so there is no server-side `window` access and no hydration mismatch.
-- **Automatic SPA pageviews** — client-side navigations are tracked out of the box.
-- **Three integration styles** — a component, a framework-agnostic web component, and a Svelte action — pick what fits.
-- **Privacy inherited from core** — Do Not Track, opt-out, localhost/private-IP exclusion, and query-string scrubbing all come from `@vskstudio/takt-core`.
+- **SSR-safe**: the browser SDK only initializes in `onMount`, so there is no server-side `window` access and no hydration mismatch.
+- **Automatic SPA pageviews**: client-side navigations are tracked out of the box.
+- **Three integration styles**: a component, a framework-agnostic web component, and a Svelte action; pick what fits.
+- **Privacy inherited from core**: Do Not Track, opt-out, localhost/private-IP exclusion, and query-string scrubbing all come from `@vskstudio/takt-core`.
 
 ## Install
 
@@ -37,11 +37,11 @@ pnpm add @vskstudio/takt-svelte @vskstudio/takt-core
 
 | Style | Import | Use it when |
 | --- | --- | --- |
-| **A — Component** | `@vskstudio/takt-svelte` | You're in a Svelte / SvelteKit app and want the idiomatic path. |
-| **B — Web component** | `@vskstudio/takt-svelte/element` | You're in plain HTML or a non-Svelte framework. |
-| **C — Action** | `@vskstudio/takt-svelte/actions` | You want to wire `init()` yourself and track events declaratively. |
+| **A. Component** | `@vskstudio/takt-svelte` | You're in a Svelte / SvelteKit app and want the idiomatic path. |
+| **B. Web component** | `@vskstudio/takt-svelte/element` | You're in plain HTML or a non-Svelte framework. |
+| **C. Action** | `@vskstudio/takt-svelte/actions` | You want to wire `init()` yourself and track events declaratively. |
 
-## A — Idiomatic component
+## A. Idiomatic component
 
 Place `<Takt />` once (e.g. in `+layout.svelte`):
 
@@ -75,12 +75,12 @@ Track custom events anywhere with `useTakt()`:
 </button>
 ```
 
-`useTakt()` resolves the instance at call time, so call it where you track — a
+`useTakt()` resolves the instance at call time, so call it where you track: a
 `const takt = useTakt()` in a component script runs before `<Takt />`'s
 `onMount` and would capture the no-op for the lifetime of the component.
 
 It never throws either: with no instance yet (SSR pass, early call) it returns a
-no-op covering the full core surface — and warns once in the console, so the
+no-op covering the full core surface, and warns once in the console, so the
 misuse is not silent.
 
 Consent calls on that no-op are real, not inert: `optOut()`, `optIn()` and
@@ -161,26 +161,26 @@ All 20 props are optional. They map 1:1 onto the core options.
 | --- | --- | --- | --- |
 | `domain` | `string` | `location.hostname` | Site id |
 | `endpoint` | `string` | `https://taktlytics.com/api/event` | Ingestion URL. Pass `/api/event` for a same-origin first-party proxy |
-| `scriptOrigin` | `string` | – | First-party origin to derive the endpoint from (`{origin}/api/event`) — a custom domain you proxy through to dodge ad-blockers (endpoint wins over it) |
+| `scriptOrigin` | `string` | n/a | First-party origin to derive the endpoint from (`{origin}/api/event`): a custom domain you proxy through to dodge ad-blockers (endpoint wins over it) |
 | `outbound` | `boolean` | `false` | Track outbound link clicks |
 | `files` | `boolean \| string[]` | `false` | Track file downloads (optional ext list) |
 | `spa` | `boolean` | `true` | Auto pageview on client navigation |
 | `track404` | `boolean` | `false` | Report a `404` event on error pages (`[data-takt-404]` / `<meta name="takt:404">` marker, or a 404 HTTP status) |
 | `respectDnt` | `boolean` | `true` | Honour Do Not Track |
 | `excludeLocalhost` | `boolean` | `true` | Skip localhost / private IPs |
-| `enabled` | `boolean` | `true` | Master on/off switch — set to `false` to disable all tracking |
+| `enabled` | `boolean` | `true` | Master on/off switch: set to `false` to disable all tracking |
 | `debug` | `boolean` | `false` | Log each payload to the console (`console.debug`) before sending it |
-| `sampleRate` | `number` | `1` | Fraction of sessions to sample (0–1) |
+| `sampleRate` | `number` | `1` | Fraction of sessions to sample (0 to 1) |
 | `trackQuery` | `boolean` | `false` | Preserve the query string in page URLs (off = query and hash are stripped) |
-| `queryParams` | `string[]` | – | Query params to preserve when `trackQuery` is false (allowlist) |
-| `exclude` | `string[]` | – | Path prefixes never tracked, e.g. `['/app', '/account']` (segment-bounded, checked at send time) |
-| `scrubUrl` | `(url: string) => string` | – | Transform each URL before it is sent: the page URL and the `props.url` of outbound clicks and file downloads. Function prop only, not available as an element attribute |
-| `redactRoutes` | `string[]` | – | Route patterns sent as the pattern instead of the real path, e.g. `['/verify/[token]']`. See [Route redaction](#route-redaction) |
+| `queryParams` | `string[]` | n/a | Query params to preserve when `trackQuery` is false (allowlist) |
+| `exclude` | `string[]` | n/a | Path prefixes never tracked, e.g. `['/app', '/account']` (segment-bounded, checked at send time) |
+| `scrubUrl` | `(url: string) => string` | n/a | Transform each URL before it is sent: the page URL and the `props.url` of outbound clicks and file downloads. Function prop only, not available as an element attribute |
+| `redactRoutes` | `string[]` | n/a | Route patterns sent as the pattern instead of the real path, e.g. `['/verify/[token]']`. See [Route redaction](#route-redaction) |
 | `routeTemplates` | `boolean` | `false` | Send every page as its route template (needs `routeTemplate`) |
-| `routeTemplate` | `() => string \| null \| undefined` | – | Returns the current route template, e.g. `() => page.route.id` in SvelteKit. Used when `routeTemplates` is on |
+| `routeTemplate` | `() => string \| null \| undefined` | n/a | Returns the current route template, e.g. `() => page.route.id` in SvelteKit. Used when `routeTemplates` is on |
 | `tagged` | `boolean` | `false` | Call `enableTagged()` to auto-track `[data-takt-event]` elements |
 
-## B — Web component
+## B. Web component
 
 For plain HTML or non-Svelte frameworks:
 
@@ -196,9 +196,9 @@ Importing the subpath registers `<takt-analytics>` automatically; `defineTaktEle
 
 Attributes mirror the `<Takt />` props, kebab-cased, and fall into three kinds:
 
-- **presence flags** — off unless the attribute is there at all (any value, including empty);
-- **default-on flags** — on unless you write the explicit value `"false"` or `"0"`;
-- **value attributes** — read as a string (numbers and comma-separated lists included).
+- **presence flags**: off unless the attribute is there at all (any value, including empty);
+- **default-on flags**: on unless you write the explicit value `"false"` or `"0"`;
+- **value attributes**: read as a string (numbers and comma-separated lists included).
 
 | Attribute | Prop | Kind | Notes |
 | --- | --- | --- | --- |
@@ -210,7 +210,7 @@ Attributes mirror the `<Takt />` props, kebab-cased, and fall into three kinds:
 | `exclude` | `exclude` | value | Comma-separated path prefixes: `exclude="/app,/account"` |
 | `redact-routes` | `redactRoutes` | value | Comma-separated route patterns: `redact-routes="/verify/[token],/reset/:code"` |
 | `outbound` | `outbound` | presence | |
-| `files` | `files` | presence | Boolean-only — no extension list (use `<Takt />` or the actions API for that) |
+| `files` | `files` | presence | Boolean-only: no extension list (use `<Takt />` or the actions API for that) |
 | `track-404` | `track404` | presence | |
 | `tagged` | `tagged` | presence | Enables `[data-takt-event]` auto-tracking |
 | `track-query` | `trackQuery` | presence | Read only when present; `track-query="false"` forces it back off |
@@ -219,16 +219,16 @@ Attributes mirror the `<Takt />` props, kebab-cased, and fall into three kinds:
 | `spa` | `spa` | default-on | `spa="false"` opts out |
 | `respect-dnt` | `respectDnt` | default-on | `respectdnt` is also accepted |
 | `exclude-localhost` | `excludeLocalhost` | default-on | `excludelocalhost` is also accepted |
-| – | `scrubUrl` | – | Not available as an attribute (functions can't be passed in HTML — use `<Takt />` or the actions API) |
-| – | `routeTemplates`, `routeTemplate` | – | Not available as attributes: the element has no router (use `<Takt />` or `init()`) |
+| n/a | `scrubUrl` | n/a | Not available as an attribute (functions can't be passed in HTML, so use `<Takt />` or the actions API) |
+| n/a | `routeTemplates`, `routeTemplate` | n/a | Not available as attributes: the element has no router (use `<Takt />` or `init()`) |
 
 HTML attribute names are case-insensitive, so `respectDnt="false"` written in
 markup reaches the element as `respectdnt` and works too.
 
-## C — Functional / actions
+## C. Functional / actions
 
-Wire init yourself and track declaratively. `init()` is browser-only — it
-patches `history` for SPA tracking as soon as it runs — so call it from
+Wire init yourself and track declaratively. `init()` is browser-only. It
+patches `history` for SPA tracking as soon as it runs, so call it from
 `onMount`; at the top level of a component script it throws
 `ReferenceError: history is not defined` during server rendering.
 

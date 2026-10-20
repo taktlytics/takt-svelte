@@ -13,7 +13,7 @@ export interface TaktEventParams extends TrackOptions {
 
 /**
  * Svelte action for declarative click tracking: `use:taktEvent={{ name }}`.
- * Reactive — updating the parameter changes the tracked name/props/revenue, and
+ * Reactive: updating the parameter changes the tracked name/props/revenue, and
  * the listener is removed on destroy.
  */
 export function taktEvent(

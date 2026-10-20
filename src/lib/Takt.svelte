@@ -22,10 +22,10 @@
     respectDnt?: boolean
     /** Suppress events on localhost and private IP ranges. */
     excludeLocalhost?: boolean
-    /** Master on/off switch — set to `false` to disable all tracking. */
+    /** Master on/off switch: set to `false` to disable all tracking. */
     enabled?: boolean
     debug?: boolean
-    /** Fraction of sessions to sample (0–1). */
+    /** Fraction of sessions to sample (0 to 1). */
     sampleRate?: number
     /** Preserve the query string in page URLs. */
     trackQuery?: boolean
