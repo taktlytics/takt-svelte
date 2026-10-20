@@ -139,7 +139,8 @@ classes, bounded quantifiers, top-level alternation such as `fr|en`), the same
 one takt-core-php enforces. A constraint outside it makes the route unusable:
 its paths are masked as `/[redacted]`, never sent raw. The rule covers the page
 URL, same-origin referrers, outbound link and file download destinations, and
-404 paths.
+404 paths. In template mode, every file download is sent as `/[redacted]` on
+any host, and every referrer is reduced to its origin.
 
 Matching is case-insensitive, and the path is decoded again and again (up to
 five changes), so `/Orders/123` and `/orders%252F123` both match
@@ -164,9 +165,10 @@ SvelteKit, so you pass the resolver yourself. In SvelteKit, read it from
 
 Route groups such as `(marketing)` in `page.route.id` are removed by core, so
 `/(marketing)/blog/[slug]` is sent as `/blog/[slug]`. When the resolver returns
-`null` (no matched route), `redactRoutes` still applies and the real path is
-sent otherwise. On a public site this mode merges every article into one row,
-so prefer `redactRoutes` there.
+`null` (no matched route), the page is sent with its `redactRoutes` pattern if
+one covers it, and as `/[redacted]` otherwise, with no query string or hash.
+The real path is never sent in this mode. On a public site this mode merges
+every article into one row, so prefer `redactRoutes` there.
 
 ### `<Takt />` props
 
@@ -191,8 +193,8 @@ All 21 props are optional. They map 1:1 onto the core options.
 | `exclude` | `string[]` | n/a | Path prefixes never tracked, e.g. `['/app', '/account']`. Segment-bounded (`/app` matches `/app` and `/app/…`, not `/application`), checked at send time. Case-insensitive, blind to a trailing slash, and matched on the percent-decoded path, segment by segment (`/%61dmin` is excluded by `/admin`) |
 | `scrubUrl` | `(url: string) => string` | n/a | Transform each URL before it is sent: the page URL and the `props.url` of outbound clicks and file downloads. Function prop only, not available as an element attribute |
 | `redactRoutes` | `string[]` | n/a | Route patterns sent as the pattern instead of the real path, e.g. `['/verify/[token]']`. See [Route redaction](#route-redaction) |
-| `routeTemplates` | `boolean` | `false` | Send every page as its route template (needs `routeTemplate`) |
-| `routeTemplate` | `() => string \| null \| undefined` | n/a | Returns the current route template, e.g. `() => page.route.id` in SvelteKit. Used when `routeTemplates` is on |
+| `routeTemplates` | `boolean` | `false` | Send every page as its route template (needs `routeTemplate`); a page the resolver does not match is sent as `/[redacted]` or its `redactRoutes` pattern |
+| `routeTemplate` | `() => string \| null \| undefined` | n/a | Returns the current route template, e.g. `() => page.route.id` in SvelteKit. Used when `routeTemplates` is on; on `null` or `undefined` the page goes out as its `redactRoutes` pattern or `/[redacted]` |
 | `redactUndecodablePaths` | `boolean` | `true` | With a route configured, a path that cannot be decoded is sent as `/[redacted]`; `false` decodes it leniently and matches it, as takt-core-php does |
 | `tagged` | `boolean` | `false` | Call `enableTagged()` to auto-track `[data-takt-event]` elements |
 
