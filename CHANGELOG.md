@@ -30,7 +30,7 @@
 
 - b865658: Fix the no-op instance returned by `useTakt()` before `<Takt />` has mounted (SSR
   pass or early call): it was missing `enableTagged`, so calling it threw a
-  `TypeError` instead of doing nothing — the exact opposite of a no-op. The stub is
+  `TypeError` instead of doing nothing, the exact opposite of a no-op. The stub is
   now typed against `keyof` the core instance, so any method added to the core
   breaks the build here instead of slipping through.
 - 77b3a14: Realign the README with the code: default `endpoint` is the hosted
@@ -52,7 +52,7 @@
   element, dropping the bundled Svelte runtime. The element only wired core
   imperatively on mount/unmount and rendered nothing, so no behavior or attribute
   changes (the hyphenated `respect-dnt` / `exclude-localhost` spellings are now
-  accepted alongside the historical lowercase ones) — the bundle shrinks from
+  accepted alongside the historical lowercase ones). The bundle shrinks from
   ~16 kB to ~3.5 kB gzipped.
 
 ## 0.5.1
@@ -106,4 +106,4 @@
 
 ### Minor Changes
 
-- fc496f7: Initial release: Svelte wrapper for `@vskstudio/takt-core` with three entry points — idiomatic `<Takt />` component + `useTakt()`, `<takt-analytics>` web component (`/element`), and the functional `taktEvent` action (`/actions`).
+- fc496f7: Initial release: Svelte wrapper for `@vskstudio/takt-core` with three entry points: idiomatic `<Takt />` component + `useTakt()`, `<takt-analytics>` web component (`/element`), and the functional `taktEvent` action (`/actions`).
