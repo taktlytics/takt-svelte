@@ -224,7 +224,7 @@ Attributes mirror the `<Takt />` props, kebab-cased, and fall into three kinds:
 | `sample-rate` | `sampleRate` | value | Numeric string (`sample-rate="0.5"`); ignored if not a finite number |
 | `query-params` | `queryParams` | value | Comma-separated, spaces trimmed: `query-params="utm_source, utm_medium"` |
 | `exclude` | `exclude` | value | Comma-separated path prefixes: `exclude="/app,/account"` |
-| `redact-routes` | `redactRoutes` | value | Comma-separated route patterns: `redact-routes="/verify/[token],/reset/:code"` |
+| `redact-routes` | `redactRoutes` | Comma-separated list of route patterns, e.g. `redact-routes="/verify/[token],/reset/:code"` (brace and `<regex>` syntax included, but a constraint cannot contain a comma here, since the list splits on commas); no `routeTemplates` mode, since the element has no router |
 | `redact-undecodable-paths` | `redactUndecodablePaths` | default-on | Only `"false"` or `"0"` decodes an undecodable path leniently instead of masking it |
 | `outbound` | `outbound` | presence | |
 | `files` | `files` | presence | Enables file download tracking; restrict it with `file-extensions` |
