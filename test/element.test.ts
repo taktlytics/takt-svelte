@@ -180,6 +180,36 @@ describe('<takt-analytics> advanced options', () => {
     expect(createTakt).not.toHaveBeenCalledWith(expect.objectContaining({ redactRoutes: expect.anything() }))
   })
 
+  it('redact-undecodable-paths: default-on, only "false" or "0" disables it', async () => {
+    await boot({ domain: 'exemple.fr', 'redact-routes': '/orders/[id]' })
+    expect(createTakt).toHaveBeenCalledWith(expect.objectContaining({ redactUndecodablePaths: true }))
+
+    vi.clearAllMocks()
+    document.body.innerHTML = ''
+    await boot({ domain: 'exemple.fr', 'redact-undecodable-paths': 'false' })
+    expect(createTakt).toHaveBeenCalledWith(expect.objectContaining({ redactUndecodablePaths: false }))
+
+    vi.clearAllMocks()
+    document.body.innerHTML = ''
+    await boot({ domain: 'exemple.fr', 'redact-undecodable-paths': '0' })
+    expect(createTakt).toHaveBeenCalledWith(expect.objectContaining({ redactUndecodablePaths: false }))
+  })
+
+  it('files + file-extensions="pdf, zip" → enableFiles receives the trimmed list', async () => {
+    await boot({ domain: 'exemple.fr', files: '', 'file-extensions': 'pdf, zip' })
+    expect(enableFiles).toHaveBeenCalledWith(['pdf', 'zip'])
+  })
+
+  it('file-extensions without the files attribute enables nothing', async () => {
+    await boot({ domain: 'exemple.fr', 'file-extensions': 'pdf' })
+    expect(enableFiles).not.toHaveBeenCalled()
+  })
+
+  it('files without file-extensions keeps the default extension set', async () => {
+    await boot({ domain: 'exemple.fr', files: '' })
+    expect(enableFiles).toHaveBeenCalledWith(undefined)
+  })
+
   it('never forwards routeTemplates: the element has no router', async () => {
     await boot({ domain: 'exemple.fr', 'route-templates': '' })
     expect(createTakt).not.toHaveBeenCalledWith(expect.objectContaining({ routeTemplates: expect.anything() }))

@@ -61,6 +61,13 @@ describe('<Takt />', () => {
     )
   })
 
+  it('forwards redactUndecodablePaths to createTakt', () => {
+    render(Takt, { props: { redactRoutes: ['/orders/[id]'], redactUndecodablePaths: false } })
+    expect(createTakt).toHaveBeenCalledWith(
+      expect.objectContaining({ redactUndecodablePaths: false }),
+    )
+  })
+
   it('leaves route redaction options undefined when not set', () => {
     render(Takt, { props: { domain: 'exemple.fr' } })
     expect(createTakt).not.toHaveBeenCalledWith(

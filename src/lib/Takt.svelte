@@ -38,6 +38,7 @@
     redactRoutes?: string[]
     routeTemplates?: boolean
     routeTemplate?: () => string | null | undefined
+    redactUndecodablePaths?: boolean
     /** Call `enableTagged()` to auto-track `[data-takt-event]` elements. */
     tagged?: boolean
   }
@@ -62,13 +63,14 @@
     redactRoutes,
     routeTemplates,
     routeTemplate,
+    redactUndecodablePaths,
     tagged = false,
   }: Props = $props()
 
   const contextStore = provideTakt()
 
   onMount(() => {
-    const takt = createTakt({ domain, endpoint, scriptOrigin, respectDnt, excludeLocalhost, enabled, debug, sampleRate, trackQuery, queryParams, exclude, scrubUrl, redactRoutes, routeTemplates, routeTemplate })
+    const takt = createTakt({ domain, endpoint, scriptOrigin, respectDnt, excludeLocalhost, enabled, debug, sampleRate, trackQuery, queryParams, exclude, scrubUrl, redactRoutes, redactUndecodablePaths, routeTemplates, routeTemplate })
     const disposers: VoidFunction[] = []
     if (spa) disposers.push(takt.enableSpa())
     if (outbound) disposers.push(takt.enableOutbound())
