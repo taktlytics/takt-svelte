@@ -31,7 +31,7 @@ A thin, SSR-safe Svelte 5 layer over [`@vskstudio/takt-core`](https://www.npmjs.
 pnpm add @vskstudio/takt-svelte @vskstudio/takt-core
 ```
 
-`@vskstudio/takt-core` (`>=0.12.0`) and `svelte` (`^5.19.0`) are peer dependencies.
+`@vskstudio/takt-core` (`>=0.12.1`) and `svelte` (`^5.19.0`) are peer dependencies.
 
 ## Choosing a style
 
